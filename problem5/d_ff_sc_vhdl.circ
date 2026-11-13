@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="5.0.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v5.0.0(https://github.com/logisim-evolution/).
+
+  <lib desc="#Wiring" name="0">
+    <tool name="Pin">
+      <a name="appearance" val="classic"/>
+    </tool>
+  </lib>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#FPArithmetic" name="4"/>
+  <lib desc="#Memory" name="5"/>
+  <lib desc="#I/O" name="6"/>
+  <lib desc="#TTL" name="7"/>
+  <lib desc="#TCL" name="8"/>
+  <lib desc="#Base" name="9"/>
+  <lib desc="#BFH-Praktika" name="10"/>
+  <lib desc="#Input/Output-Extra" name="11"/>
+  <lib desc="#Soc" name="12"/>
+  <main name="main"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool map="Button2" name="Poke Tool"/>
+    <tool map="Button3" name="Menu Tool"/>
+    <tool map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool name="Poke Tool"/>
+    <tool name="Edit Tool"/>
+    <tool name="Wiring Tool"/>
+    <tool name="Text Tool"/>
+    <sep/>
+    <tool name="Pin"/>
+    <tool name="Pin">
+      <a name="facing" val="west"/>
+      <a name="type" val="output"/>
+    </tool>
+    <sep/>
+    <tool name="NOT Gate"/>
+    <tool name="AND Gate"/>
+    <tool name="OR Gate"/>
+    <tool name="XOR Gate"/>
+    <tool name="NAND Gate"/>
+    <tool name="NOR Gate"/>
+  </toolbar>
+  <vhdl name="d_ff_sc">library ieee;
+use ieee.std_logic_1164.all;
+
+-- Positive-edge-triggered D Flip-Flop with asynchronous Set and Clear
+--   clr = '1'           : Q = '0' immediately (highest priority)
+--   set = '1', clr = '0': Q = '1' immediately
+--   set = clr = '0'     : normal D Flip-Flop (Q &lt;= D on rising edge of clk)
+entity d_ff_sc is
+    port(
+        d   : in  std_logic;
+        clk : in  std_logic;
+        set : in  std_logic;
+        clr : in  std_logic;
+        q   : out std_logic;
+        qn  : out std_logic
+    );
+end entity d_ff_sc;
+
+architecture bhv of d_ff_sc is
+    signal q_int : std_logic := '0';
+begin
+    process(clk, set, clr)
+    begin
+        if clr = '1' then
+            q_int &lt;= '0';
+        elsif set = '1' then
+            q_int &lt;= '1';
+        elsif rising_edge(clk) then
+            q_int &lt;= d;
+        end if;
+    end process;
+
+    q  &lt;= q_int;
+    qn &lt;= not q_int;
+end architecture bhv;
+</vhdl>
+  <circuit name="main">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="main"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="9" loc="(300,80)" name="Text">
+      <a name="text" val="Problem 5 - D FF with Async Set / Clear (VHDL entity)"/>
+    </comp>
+    <comp loc="(460,160)" name="d_ff_sc"/>
+    <comp lib="0" loc="(160,160)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="label" val="D"/>
+    </comp>
+    <wire from="(160,160)" to="(240,160)"/>
+    <comp lib="0" loc="(160,180)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="label" val="clk"/>
+    </comp>
+    <wire from="(160,180)" to="(240,180)"/>
+    <comp lib="0" loc="(160,200)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="label" val="set"/>
+    </comp>
+    <wire from="(160,200)" to="(240,200)"/>
+    <comp lib="0" loc="(160,220)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="label" val="clr"/>
+    </comp>
+    <wire from="(160,220)" to="(240,220)"/>
+    <comp lib="0" loc="(540,160)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="Q"/>
+      <a name="labelloc" val="east"/>
+      <a name="type" val="output"/>
+    </comp>
+    <wire from="(460,160)" to="(540,160)"/>
+    <comp lib="0" loc="(540,180)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="Qn"/>
+      <a name="labelloc" val="east"/>
+      <a name="type" val="output"/>
+    </comp>
+    <wire from="(460,180)" to="(540,180)"/>
+  </circuit>
+</project>

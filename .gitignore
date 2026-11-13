@@ -1,0 +1,9 @@
+# Quartus / Questa generated files
+db/
+incremental_db/
+output_files/
+work/
+*.wlf
+transcript
+*.qws
+*.bak
